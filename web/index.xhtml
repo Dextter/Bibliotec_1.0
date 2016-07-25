@@ -1,0 +1,45 @@
+<ui:composition template="/WEB-INF/templates/templateIndex.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+        
+    <ui:define name="title">Bibliotec</ui:define>
+    <ui:define name="centerIndex">
+     
+                           <div id="login">
+                    <p:fieldset legend="Área do Administrador" >
+                    <h:form>
+                        <h:panelGrid columns="1">
+                        
+                        <p:outputLabel value="Administrador" for="campo-login-usuario" />
+                        <p:inputText value="#{administradorBean.bibliotecario.codUsuario}"
+                                     id="campo-login-usuario"  title="Administrador"
+                                     required="true" requiredMessage="Campo Vazio"
+                                     placeholder="Usuario"/>
+
+                        <p:outputLabel value="Senha" for="campo-login-senha" />
+                        <p:password value="#{administradorBean.bibliotecario.senha}"
+                                     id="campo-login-senha"  title="Senha"
+                                     required="true" requiredMessage="Campo Vazio"
+                                     placeholder="Senha"/>
+
+                        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+                        <p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+                                  closable="false" resizable="false" showHeader="false">
+                            <p:graphicImage value="img/ajaxloadingbar.gif" />
+                            
+                        </p:dialog>
+                        <p:commandButton value="Login"  action="#{administradorBean.Logar()}" icon="ui-icon-check"
+                                         title="Login"/>
+                        
+                    </h:panelGrid>
+                        <p:link outcome="Admin.xhtml" value="Clique aqui para cadastrar-se"/>
+                        </h:form>
+                  </p:fieldset>
+                  
+                 </div>                                     
+    </ui:define>
+</ui:composition>

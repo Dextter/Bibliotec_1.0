@@ -1,0 +1,38 @@
+<ui:composition template="/WEB-INF/templates/templateIndex.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+        
+    <ui:define name="title">IFRN</ui:define>
+    <ui:define name="centerIndex">
+        <div id="formulario">
+                <legend>
+                    <h4>
+                        CADASTRO DE LIVROS
+                    </h4>
+                </legend>
+                        <h:form id="messages" enctype="multipart/form-data">
+                            <p:panelGrid columns="4">
+                                <p>AUTOR(A):</p>
+                                <p:inputText value="#{beanCadastrar.livro.autor}" />
+
+                                <p>ISBN:</p>
+                                <p:inputText value="#{beanCadastrar.livro.isbn}" />                                                                                       
+
+                                <p>TÍTULO:</p>
+                                <p:inputText value="#{beanCadastrar.livro.titulo}" />
+
+                                <p>EDIÇÃO:</p>
+                                <p:inputText value="#{beanCadastrar.livro.edicao}" />
+
+                                <p>CURSO:</p>
+                                <p:inputMask mask="date" value="#{beanCadastrar.livro.data}" />
+                                <p:commandButton value="Enviar" action="#{beanCadastrar.cadastrar}" ajax="false"/>
+                            </p:panelGrid>
+                        </h:form>
+         </div>
+                 <p:growl id="message" showDetail="true" /> 
+    </ui:define>
+</ui:composition>
