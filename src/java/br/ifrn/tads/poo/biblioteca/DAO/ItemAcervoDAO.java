@@ -67,7 +67,7 @@ public class ItemAcervoDAO {
   
     //lista todos itens não alugados em ordem decrescente
     public List<Livro> listaItens(){
-        String sqls = "SELECT * FROM acervo  WHERE alugado = ?  ORDER BY nome DESC ";
+        String sqls = "SELECT * FROM livro WHERE alugado = ?  ORDER BY titulo_livro DESC ";
          
         List<Livro> lista = new ArrayList<>();
         try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
@@ -75,11 +75,11 @@ public class ItemAcervoDAO {
             ResultSet result = pst.executeQuery();
                 while(result.next()){
                     Livro livros = new Livro();
-                        livros.setAutor(result.getString("nome"));
-                        livros.setIsbn(result.getString("isbn"));                        
-                        livros.setTitulo(result.getString("titulo"));                        
-                        livros.setData(result.getDate("data"));                        
-                        livros.setEdicao(result.getInt("edicao"));                    
+                        livros.setIsbn(result.getString("isbn_livro"));
+                        livros.setAutor(result.getString("autor_livro"));                        
+                        livros.setTitulo(result.getString("titulo_livro"));                        
+                        livros.setEdicao(result.getInt("edicao_livro"));                        
+                        //livros.setEdicao(result.getInt("edicao"));                    
                     lista.add(livros);                    
                 }
                 return lista;

@@ -28,6 +28,7 @@ public class AcervoBean {
     private Livro livros;                
 
     public List<Livro> getListaLivrosAlugados() {
+        listarItensEmprestados();
         return listaLivrosAlugados;
     }
 
@@ -51,13 +52,12 @@ public class AcervoBean {
         this.livros = livros;
     }
     public AcervoBean() {
-        this.livros = new Livro();
-        listarItens();
-        listarItensEmprestados();
+        this.livros = new Livro();                
     }
     
 
     public List<Livro> getListaLivros() {
+        listarItens();
         return listaLivros;
     }
 

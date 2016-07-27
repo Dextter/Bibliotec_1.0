@@ -33,7 +33,7 @@ private Administrador adm;
     }
     //faz o login
      public Administrador getBibliotecario(Administrador bibliotecarios){         
-        String sql = "SELECT * FROM usuario WHERE usuario = ? AND senha = ?";
+        String sql = "SELECT * FROM usuarioa WHERE codusuario = ? AND senha = ?";
         try (PreparedStatement ps = cone.prepareStatement(sql)) {
             ps.setInt(1, bibliotecarios.getCodUsuario());
             ps.setString(2, bibliotecarios.getSenha());

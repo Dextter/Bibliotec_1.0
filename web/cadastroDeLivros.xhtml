@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
         
-    <ui:define name="title">IFRN</ui:define>
+    <ui:define name="title">Bibliotec</ui:define>
     <ui:define name="centerIndex">
         <div id="formulario">
                 <legend>
@@ -27,7 +27,7 @@
                                 <p>EDIÇÃO:</p>
                                 <p:inputText value="#{beanCadastrar.livro.edicao}" />
 
-                                <p>CURSO:</p>
+                                <p>DATA:</p>
                                 <p:inputMask mask="date" value="#{beanCadastrar.livro.data}" />
                                 <p:commandButton value="Enviar" action="#{beanCadastrar.cadastrar}" ajax="false"/>
                             </p:panelGrid>

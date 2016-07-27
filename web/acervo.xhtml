@@ -4,22 +4,22 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-       <ui:define name="title">Trabalhos</ui:define>
+       <ui:define name="title">Bibliotec</ui:define>
        <ui:define name="center">
     
        
         <h:form  id="message">
              <p:dataTable var="livro" value="#{acervoBean.listaLivros}">
-                <f:facet name="header" ><p:outputLabel value="Trabalhos" /></f:facet>
+                <f:facet name="header" ><p:outputLabel value="Acervo" /></f:facet>
                 <p:column style="width:16px">
                     <p:rowToggler />
                 </p:column>                    
                     <p:column>
-                        <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
+                        <f:facet name="header"><p:outputLabel value="Titulosl" /></f:facet>
                         <p:outputLabel value="#{livro.titulo}"/>
                     </p:column>                    
                     <p:rowExpansion>
-                    <p:panelGrid columns="6" columnClasses="label,value" style="width: 1000px">
+                    <p:panelGrid columns="5" columnClasses="label,value" style="width: 1000px">
                     
                         <f:facet name="header">
                             <p:outputLabel value="Informações Adicionais"/> 
@@ -31,11 +31,11 @@
                         <p:outputLabel value="Edição" />
                         <p:outputLabel value="Data:" />                        
                         
-                        <p:outputLabel value="#{trabalho.titulo}"/>                                            
-                        <p:outputLabel value="#{trabalho.autor}"/>                                            
-                        <p:outputLabel value="#{trabalho.isbn}"/>                                                
-                        <p:outputLabel value="#{trabalho.edicao}"/>                                            
-                        <p:outputLabel value="#{trabalho.data}"/>                                                
+                        <p:outputLabel value="#{livro.titulo}"/>                                            
+                        <p:outputLabel value="#{livro.autor}"/>                                            
+                        <p:outputLabel value="#{livro.isbn}"/>                                                
+                        <p:outputLabel value="#{livro.edicao}"/>                                            
+                        <p:outputLabel value="#{livro.data}"/>                                                
                         
                     </p:panelGrid>                    
                   
@@ -46,8 +46,7 @@
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                         <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                         <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                        
-                    </p:confirmDialog>                       
-                    
+                    </p:confirmDialog>                                           
                       <script type="text/javascript">
                           function start() {
                               PF('statusDialog').show();
@@ -56,9 +55,7 @@
                           function stop() {
                               PF('statusDialog').hide();
                           }
-                      </script>
-                       
-                      <p:commandButton title="E-mail" value="E-mail"  type="button" onclick="PF('dlg3').show();"/>                                                                          
+                      </script>                                                                  
                   </p:rowExpansion>
              </p:dataTable>
          </h:form>
@@ -68,7 +65,7 @@
                 <p:stack icon="/img/stack.png" expanded="true">
                         <p:menuitem value="Home" icon="/img/Home.png" outcome="acervo.xhtml"/>
                         <p:menuitem value="Sair" icon="/img/Exit.png" action="#{administradorBean.Logout()}"/>                       
-                        <p:menuitem value="Corrigidos" icon="/img/Apply.png" outcome="itensAlugados.xhtml"/>
+                        <p:menuitem value="Alugados" icon="/img/Apply.png" outcome="itensAlugados.xhtml"/>
                 </p:stack>
           </h:form>    
            </ui:define>
