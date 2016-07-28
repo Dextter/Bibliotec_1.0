@@ -8,50 +8,49 @@
        <ui:define name="center"> 
    
             <h:form>
-                <p:dataTable var="trabalho" value="#{acervoBean.listaLivrosAlugados}">
+                <p:dataTable var="alugados" value="#{acervoBean.listaLivrosAlugados}">
                 <f:facet name="header" ><p:outputLabel value="Trabalhos Corrigidos" /></f:facet>
                 <p:column style="width:16px">
                 <p:rowToggler />
                 </p:column>
                     <p:column headerText="Usuario">
                         <f:facet name="header" ><p:outputLabel value="Usuario" /></f:facet>
-                        <p:outputLabel value="#{trabalho.autor}" />
+                        <p:outputLabel value="#{alugado.autor}" />
                     </p:column>
                 
                     <p:column>
                         <f:facet name="header"><p:outputLabel value="Matricula" /></f:facet>
-                        <p:outputLabel value="#{trabalho.isbn}"/>
+                        <p:outputLabel value="#{alugado.isbn}"/>
                     </p:column>
                 
                 
                     <p:column>
                         <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
-                        <p:outputLabel value="#{trabalho.email}"/>
+                        <p:outputLabel value="#{alugado.email}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header"><p:outputLabel value="Contato" /></f:facet>
-                        <p:outputLabel value="#{trabalho.contato}"/>
+                        <p:outputLabel value="#{alugado.contato}"/>
                     </p:column>
                 
                     <p:rowExpansion>
-                    <p:panelGrid columns="6" columnClasses="label,value" style="width: 1000px">
+                    <p:panelGrid columns="5" columnClasses="label,value" style="width: 1000px">
                     
                         <f:facet name="header">
                             <p:outputLabel value="Informações adicionais"/> 
                         </f:facet>
                                         
                         <h:outputText value="Título:"/>
-                        <p:outputLabel value="Orientador:" />
-                        <p:outputLabel value="Curso:" />
-                        <p:outputLabel value="Data:" />
-                        <p:outputLabel value="Nível Médio:" />
-                        <p:outputLabel value="Nível Superior:" />
+                        <p:outputLabel value="Autor" />
+                        <p:outputLabel value="ISBN" />
+                        <p:outputLabel value="Edição" />
+                        <p:outputLabel value="Data:" />                        
                         
-                        <h:outputText value="#{trabalho.titulo}"/>                                            
-                        <p:outputLabel value="#{trabalho.orientador}"/>                                            
-                        <p:outputLabel value="#{trabalho.curso}"/>                                                
-                        <p:outputLabel value="#{trabalho.data}"/>                                            
-                        <p:outputLabel value="#{trabalho.medio}"/>                        
+                        <p:outputLabel value="#{alugado .titulo}"/>                                            
+                        <p:outputLabel value="#{alugado.autor}"/>                                            
+                        <p:outputLabel value="#{alugado.isbn}"/>                                                
+                        <p:outputLabel value="#{alugado.edicao}"/>                                            
+                        <p:outputLabel value="#{alugado.data}"/>                             
                         
                         <p:outputLabel value="#{trabalho.superior}"/>
                     </p:panelGrid>

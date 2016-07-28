@@ -12,7 +12,7 @@ import java.util.Date;
  * @author pablopc
  */
 public class Texto extends ItemAcervo{
-    String autor, titulo, quantidade;
+    String autor, quantidade;
     boolean alugado;
 
     public String getAutor() {
@@ -30,14 +30,6 @@ public class Texto extends ItemAcervo{
     public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
     }   
-
-    public String getTitulo() {
-        return titulo;
-    }        
-    
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }    
     
     public Texto(){}
 

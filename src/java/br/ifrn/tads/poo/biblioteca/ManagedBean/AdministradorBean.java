@@ -63,7 +63,7 @@ public class AdministradorBean {
             this.bibliotecariodao = new AdministradorDAO();
             this.bibliotecario = this.bibliotecariodao.getBibliotecario(this.bibliotecario);
             try {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("faces/acervo.xhtml");
                 } catch (IOException ex) {
                     Logger.getLogger(AdministradorBean.class.getName()).log(Level.SEVERE, null, ex);
                 }                      

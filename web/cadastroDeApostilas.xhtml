@@ -10,26 +10,16 @@
         <div id="formulario">
                 <legend>
                     <h4>
-                        CADASTRO DE LIVROS
+                        CADASTRO DE APOSTILAS
                     </h4>
                 </legend>
                         <h:form id="messages" enctype="multipart/form-data">
                             <p:panelGrid columns="4">
                                 <p>AUTOR(A):</p>
-                                <p:inputText value="#{beanCadastrar.livro.autor}" />
-
-                                <p>ISBN:</p>
-                                <p:inputText value="#{beanCadastrar.livro.isbn}" />                                                                                       
-
+                                <p:inputText value="#{beanCadastrar.apostila.autor}" />                              
                                 <p>TÍTULO:</p>
-                                <p:inputText value="#{beanCadastrar.livro.titulo}" />
-
-                                <p>EDIÇÃO:</p>
-                                <p:inputText value="#{beanCadastrar.livro.edicao}" />
-
-                                <p>DATA:</p>
-                                <p:inputMask mask="date" value="#{beanCadastrar.livro.data}" />
-                                <p:commandButton value="Enviar" action="#{beanCadastrar.cadastrarLivro}" ajax="false"/>
+                                <p:inputText value="#{beanCadastrar.apostila.titulo}" />
+                                <p:commandButton value="Enviar" action="#{beanCadastrar.cadastrarApostila}" ajax="false"/>
                             </p:panelGrid>
                         </h:form>
          </div>
