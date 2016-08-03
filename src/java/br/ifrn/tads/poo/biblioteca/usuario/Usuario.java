@@ -12,9 +12,9 @@ import br.ifrn.tads.poo.biblioteca.acervo.ItemAcervo;
  * @author pablopc
  */
 public class Usuario {
-    int codUsuario;
-    String nome, endereco, cpf, senha, ativo;
-    ItemAcervo item;
+    private int codUsuario;
+    private String nome, endereco, cpf, senha, ativo;
+    private ItemAcervo item;
 
     public String getAtivo(){
         return ativo;

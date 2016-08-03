@@ -6,8 +6,10 @@
 
 package br.ifrn.tads.poo.biblioteca.DAO;
 
+import br.ifrn.tads.poo.biblioteca.acervo.Apostila;
 import br.ifrn.tads.poo.biblioteca.conexao.ConexaoBd;
 import br.ifrn.tads.poo.biblioteca.acervo.Livro;
+import br.ifrn.tads.poo.biblioteca.acervo.Texto;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -66,7 +68,7 @@ public class ItemAcervoDAO {
      }
   
     //lista todos itens não alugados em ordem decrescente
-    public List<Livro> listaItens(){
+    public List<Livro> listarLivros(){
         String sqls = "SELECT * FROM livro WHERE alugado = ?  ORDER BY titulo_livro DESC ";
          
         List<Livro> lista = new ArrayList<>();
@@ -78,8 +80,7 @@ public class ItemAcervoDAO {
                         livros.setIsbn(result.getString("isbn_livro"));
                         livros.setAutor(result.getString("autor_livro"));                        
                         livros.setTitulo(result.getString("titulo_livro"));                        
-                        livros.setEdicao(result.getInt("edicao_livro"));                        
-                        //livros.setEdicao(result.getInt("edicao"));                    
+                        livros.setEdicao(result.getInt("edicao_livro"));                                                                   
                     lista.add(livros);                    
                 }
                 return lista;
@@ -99,7 +100,7 @@ public class ItemAcervoDAO {
     }
     //lista todos os livros alugados
     public List<Livro> listarLivrosAlugados(){
-        String sqls = "SELECT * FROM acervo WHERE alugado = ? ";
+        String sqls = "SELECT * FROM livro WHERE alugado = ? ";
          
         List<Livro> lista = new ArrayList<>();
         try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
@@ -107,11 +108,10 @@ public class ItemAcervoDAO {
             ResultSet result = pst.executeQuery();
                 while(result.next()){
                     Livro livros = new Livro();
-                        livros.setAutor(result.getString("nome"));
-                        livros.setIsbn(result.getString("matricula"));                       
-                        livros.setTitulo(result.getString("titulo_proj"));       
-                        livros.setEdicao(result.getInt("edicao"));
-                        livros.setData(result.getDate("data_solicitacao"));                                      
+                        livros.setAutor(result.getString("autor_livro"));
+                        livros.setIsbn(result.getString("isbn_livro"));                       
+                        livros.setTitulo(result.getString("titulo_livro"));       
+                        livros.setEdicao(result.getInt("edicao_livro"));                        
                     lista.add(livros);                    
                 }
                 return lista;
@@ -129,4 +129,176 @@ public class ItemAcervoDAO {
        
         return null;
     }    
+    
+    //lista todas as apostilas não alugadas em ordem decrescente
+    public List<Apostila> listarApostilas(){
+        String sqls = "SELECT * FROM apostila WHERE alugado = ?  ORDER BY titulo_apostila DESC ";
+         
+        List<Apostila> lista = new ArrayList<>();
+        try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
+            pst.setString(1, "nao");
+            ResultSet result = pst.executeQuery();
+                while(result.next()){
+                    Apostila apostilas = new Apostila();                        
+                        apostilas.setAutor(result.getString("autor_apostila"));                        
+                        apostilas.setTitulo(result.getString("titulo_apostila"));                                                
+                    lista.add(apostilas);                    
+                }
+                return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(conexaobd != null){
+                try {
+                    conexaobd.close();                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+       
+        return null;
+    }
+    //lista todos as apostilas alugadas
+    public List<Apostila> listarApostilasAlugados(){
+        String sqls = "SELECT * FROM apostila WHERE alugado = ? ";
+         
+        List<Apostila> lista = new ArrayList<>();
+        try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
+            pst.setString(1, "sim");
+            ResultSet result = pst.executeQuery();
+                while(result.next()){
+                    Apostila apostilas = new Apostila();
+                        apostilas.setAutor(result.getString("autor_apostila"));                                             
+                        apostilas.setTitulo(result.getString("titulo_apostila"));                               
+                    lista.add(apostilas);                    
+                }
+                return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(conexaobd != null){
+                try {
+                    conexaobd.close();                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }       
+        return null;
+    }    
+    
+    //lista todos textos não alugados em ordem decrescente
+    public List<Texto> listarTextos(){
+        String sqls = "SELECT * FROM texto WHERE alugado = ?  ORDER BY autor DESC ";
+         
+        List<Texto> lista = new ArrayList<>();
+        try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
+            pst.setString(1, "nao");
+            ResultSet result = pst.executeQuery();
+                while(result.next()){
+                    Texto textos = new Texto();                        
+                        textos.setAutor(result.getString("autor"));                                                                        
+                    lista.add(textos);                    
+                }
+                return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(conexaobd != null){
+                try {
+                    conexaobd.close();                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+       
+        return null;
+    }
+    //lista todos os textos alugados
+    public List<Texto> listarTextosAlugados(){
+        String sqls = "SELECT * FROM texto WHERE alugado = ? ";
+         
+        List<Texto> lista = new ArrayList<>();
+        try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
+            pst.setString(1, "sim");
+            ResultSet result = pst.executeQuery();
+                while(result.next()){
+                    Texto textos = new Texto();
+                        textos.setAutor(result.getString("autor"));                        
+                    lista.add(textos);                    
+                }
+                return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(conexaobd != null){
+                try {
+                    conexaobd.close();                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+       
+        return null;
+    }    
+
+    public boolean alugarLivros(Livro livro) {
+        String sql = "UPDATE livro SET alugado = ? WHERE isbn = ?";
+         try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
+            ps.setString(1, "sim");
+            ps.setString(2, livro.getIsbn());            
+         }catch (SQLException ex) {
+                        Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                    if(conexaobd != null){
+                        try {
+                            conexaobd.close();                            
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }               
+        return  false;
+    }
+
+    public boolean alugarApostilas(Apostila apostila) {
+        String sql = "UPDATE apostila SET alugado = ? WHERE titulo = ?";
+         try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
+            ps.setString(1, "sim");
+            ps.setString(2, apostila.getTitulo());            
+         }catch (SQLException ex) {
+                        Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                    if(conexaobd != null){
+                        try {
+                            conexaobd.close();                            
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }               
+        return  false;
+    }
+
+    public boolean alugarTextos(Texto texto) {
+        String sql = "UPDATE texto SET alugado = ? WHERE autor = ?";
+         try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
+            ps.setString(1, "sim");
+            ps.setString(2, texto.getAutor());            
+         }catch (SQLException ex) {
+                        Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                    if(conexaobd != null){
+                        try {
+                            conexaobd.close();                            
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }               
+        return  false;
+    }
 }

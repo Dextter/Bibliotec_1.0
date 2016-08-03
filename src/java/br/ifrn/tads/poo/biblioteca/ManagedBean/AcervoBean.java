@@ -8,7 +8,9 @@ package br.ifrn.tads.poo.biblioteca.ManagedBean;
 
 
 import br.ifrn.tads.poo.biblioteca.DAO.ItemAcervoDAO;
+import br.ifrn.tads.poo.biblioteca.acervo.Apostila;
 import br.ifrn.tads.poo.biblioteca.acervo.Livro;
+import br.ifrn.tads.poo.biblioteca.acervo.Texto;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,21 +23,49 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class AcervoBean {
-    private List<Livro> listaLivrosAlugados;
+public class AcervoBean {    
     private List<Livro> listaLivros;    
+    private List<Apostila> listaApostilas;  
+    private List<Texto> listaTextos;  
     private ItemAcervoDAO acervodao;
-    private Livro livros;                
+    private Livro livros;                   
+    private Texto textos;   
+    private Apostila Apostilas;   
 
-    public List<Livro> getListaLivrosAlugados() {
-        listarItensEmprestados();
-        return listaLivrosAlugados;
+    public List<Apostila> getListaApostilas() {
+        listarApostilas();
+        return listaApostilas;
     }
 
-    public void setListaLivrosAlugados(List<Livro> listaLivrosAlugados) {
-        this.listaLivrosAlugados = listaLivrosAlugados;
+    public void setListaApostilas(List<Apostila> listaApostilas) {
+        this.listaApostilas = listaApostilas;
     }
 
+    public List<Texto> getListaTextos() {
+        listarTextos();
+        return listaTextos;
+    }
+
+    public void setListaTextos(List<Texto> listaTextos) {
+        this.listaTextos = listaTextos;
+    }
+
+    public Texto getTextos() {
+        return textos;
+    }
+
+    public void setTextos(Texto textos) {
+        this.textos = textos;
+    }
+
+    public Apostila getApostilas() {
+        return Apostilas;
+    }
+
+    public void setApostilas(Apostila Apostilas) {
+        this.Apostilas = Apostilas;
+    }
+        
     public ItemAcervoDAO getAcervodao() {
         return acervodao;
     }
@@ -57,30 +87,41 @@ public class AcervoBean {
     
 
     public List<Livro> getListaLivros() {
-        listarItens();
+        listarLivros();
         return listaLivros;
     }
 
     public void setListaLivros(List<Livro> listaLivros) {
         this.listaLivros = listaLivros;
     }
-    //chama o método que lista todos livros não alugados
-    public final void listarItens(){       
+    
+//chama o método que lista todos os livros não alugados
+    public final void listarLivros(){       
         try {
             this.acervodao = new ItemAcervoDAO();
-            this.listaLivros = this.acervodao.listaItens();
+            this.listaLivros = this.acervodao.listarLivros();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    //chama o método que lista os livros alugados
-    public final void listarItensEmprestados(){        
+    }                       
+    
+    //chama o método que lista todas as apostilas não alugados
+    public final void listarApostilas(){       
         try {
             this.acervodao = new ItemAcervoDAO();
-            this.listaLivrosAlugados = this.acervodao.listarLivrosAlugados();
+            this.listaApostilas = this.acervodao.listarApostilas();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-           
+    }                       
+    
+    //chama o método que lista todos os textos não alugados
+    public final void listarTextos(){       
+        try {
+            this.acervodao = new ItemAcervoDAO();
+            this.listaTextos = this.acervodao.listarTextos();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }                       
 }

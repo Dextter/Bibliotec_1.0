@@ -4,68 +4,139 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-       <ui:define name="title">Trabalhos Corrigidos</ui:define>
+       <ui:define name="title">Biliotec</ui:define>
        <ui:define name="center"> 
-   
-            <h:form>
-                <p:dataTable var="trabalho" value="#{acervoBean.listaLivrosAlugados}">
-                <f:facet name="header" ><p:outputLabel value="Trabalhos Corrigidos" /></f:facet>
-                <p:column style="width:16px">
-                <p:rowToggler />
-                </p:column>
-                    <p:column headerText="Usuario">
-                        <f:facet name="header" ><p:outputLabel value="Usuario" /></f:facet>
-                        <p:outputLabel value="#{trabalho.autor}" />
-                    </p:column>
-                
-                    <p:column>
-                        <f:facet name="header"><p:outputLabel value="Matricula" /></f:facet>
-                        <p:outputLabel value="#{trabalho.isbn}"/>
-                    </p:column>
-                
-                
-                    <p:column>
-                        <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
-                        <p:outputLabel value="#{trabalho.email}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header"><p:outputLabel value="Contato" /></f:facet>
-                        <p:outputLabel value="#{trabalho.contato}"/>
-                    </p:column>
-                
-                    <p:rowExpansion>
-                    <p:panelGrid columns="6" columnClasses="label,value" style="width: 1000px">
-                    
-                        <f:facet name="header">
-                            <p:outputLabel value="Informações adicionais"/> 
-                        </f:facet>
-                                        
-                        <h:outputText value="Título:"/>
-                        <p:outputLabel value="Orientador:" />
-                        <p:outputLabel value="Curso:" />
-                        <p:outputLabel value="Data:" />
-                        <p:outputLabel value="Nível Médio:" />
-                        <p:outputLabel value="Nível Superior:" />
-                        
-                        <h:outputText value="#{trabalho.titulo}"/>                                            
-                        <p:outputLabel value="#{trabalho.orientador}"/>                                            
-                        <p:outputLabel value="#{trabalho.curso}"/>                                                
-                        <p:outputLabel value="#{trabalho.data}"/>                                            
-                        <p:outputLabel value="#{trabalho.medio}"/>                        
-                        
-                        <p:outputLabel value="#{trabalho.superior}"/>
-                    </p:panelGrid>
-              </p:rowExpansion>
-            </p:dataTable>
-                <p:stack icon="/img/stack.png" expanded="true">
-                        
-                        <p:menuitem value="Home" icon="/img/Home.png" outcome="trabalhos.xhtml"/>
-                        <p:menuitem value="Sair" icon="/img/Exit.png" action="#{administradorBean.Logout()}"/>
-                       
-                        
-              </p:stack>
-          </h:form>      
-        
-    
-           </ui:define>
+           <h:form  id="message">
+                 <p:dataTable var="livro" value="#{beanNegocios.listaLivrosAlugados}">
+                    <f:facet name="header" ><p:outputLabel value="Acervo" /></f:facet>
+                    <p:column style="width:16px">
+                        <p:rowToggler />
+                    </p:column>                    
+                        <p:column>
+                            <f:facet name="header"><p:outputLabel value="Livros" /></f:facet>
+                            <p:outputLabel value="#{livro.titulo}"/>
+                        </p:column>                    
+                        <p:rowExpansion>
+                        <p:panelGrid columns="5" columnClasses="label,value" style="width: 1000px">
+
+                            <f:facet name="header">
+                                <p:outputLabel value="Informações Adicionais"/> 
+                            </f:facet>
+
+                            <h:outputText value="Título:"/>
+                            <p:outputLabel value="Autor" />
+                            <p:outputLabel value="ISBN" />
+                            <p:outputLabel value="Edição" />
+                            <p:outputLabel value="Data:" />                        
+
+                            <p:outputLabel value="#{livro.titulo}"/>                                            
+                            <p:outputLabel value="#{livro.autor}"/>                                            
+                            <p:outputLabel value="#{livro.isbn}"/>                                                
+                            <p:outputLabel value="#{livro.edicao}"/>                                            
+                            <p:outputLabel value="#{livro.data}"/>                                                
+
+                        </p:panelGrid>                    
+
+                        <p:commandButton value="Reservar" update=":message"  action="#{beanNegocios.reservarLivro}"
+                                           style="margin-left: 16.7%">
+                            <p:confirm header="Reservar?" message="Reservar" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                        
+                        </p:confirmDialog>                                           
+                          <script type="text/javascript">
+                              function start() {
+                                  PF('statusDialog').show();
+                              }
+
+                              function stop() {
+                                  PF('statusDialog').hide();
+                              }
+                          </script>                                                                  
+                      </p:rowExpansion>
+                 </p:dataTable>
+             </h:form>                       
+             <h:form  id="messageA">
+                 <p:dataTable var="apostila" value="#{beanNegocios.listaApostilasAlugadas}">                    
+                    <p:column style="width:16px">
+                        <p:rowToggler />
+                    </p:column>                    
+                        <p:column>
+                            <f:facet name="header"><p:outputLabel value="Apostilas" /></f:facet>
+                            <p:outputLabel value="#{apostila.titulo}"/>
+                        </p:column>                    
+                        <p:rowExpansion>
+                        <p:panelGrid columns="5" columnClasses="label,value" style="width: 1000px">
+
+                            <f:facet name="header">
+                                <p:outputLabel value="Informações Adicionais"/> 
+                            </f:facet>
+
+                            <h:outputText value="Título:"/>
+                            <p:outputLabel value="Autor" />
+                            
+                            <p:outputLabel value="#{apostila.titulo}"/>                                            
+                            <p:outputLabel value="#{apostila.autor}"/>                                            
+                            
+                        </p:panelGrid>                    
+
+                            <p:commandButton value="Reservar" update=":messageA"  action="#{beanNegocios.reservarApostila}"
+                                           style="margin-left: 16.7%">
+                            <p:confirm header="Reservar?" message="Reservar" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                        
+                        </p:confirmDialog>                                           
+                          <script type="text/javascript">
+                              function start() {
+                                  PF('statusDialog').show();
+                              }
+
+                              function stop() {
+                                  PF('statusDialog').hide();
+                              }
+                          </script>                                                                  
+                      </p:rowExpansion>
+                 </p:dataTable>
+             </h:form>
+             <h:form  id="messageT">
+                 <p:dataTable var="texto" value="#{beanNegocios.listaTextosAlugados}">                    
+                    <p:column style="width:16px">
+                        <p:rowToggler />
+                    </p:column>                    
+                        <p:column>
+                            <f:facet name="header"><p:outputLabel value="Textos" /></f:facet>
+                            <p:outputLabel value="#{texto.autor}"/>
+                        </p:column>                    
+                        <p:rowExpansion>
+                        <p:panelGrid columns="5" columnClasses="label,value" style="width: 1000px">
+                            <f:facet name="header">
+                                <p:outputLabel value="Informações Adicionais"/> 
+                            </f:facet>                            
+                            <p:outputLabel value="Autor" />
+                            <p:outputLabel value="#{livro.autor}"/>                                            
+                        </p:panelGrid>                    
+                        <p:commandButton value="Reservar" update=":messageT"  action="#{beanNegocios.reservarTexto}"
+                                           style="margin-left: 16.7%">
+                            <p:confirm header="Reservar?" message="Reservar" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                        
+                        </p:confirmDialog>                                           
+                          <script type="text/javascript">
+                              function start() {
+                                  PF('statusDialog').show();
+                              }
+
+                              function stop() {
+                                  PF('statusDialog').hide();
+                              }
+                          </script>                                                                  
+                      </p:rowExpansion>
+                 </p:dataTable>
+             </h:form>
+       </ui:define>
 </ui:composition>
