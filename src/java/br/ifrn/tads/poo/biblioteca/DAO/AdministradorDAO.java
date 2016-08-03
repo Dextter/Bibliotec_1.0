@@ -33,7 +33,7 @@ private Administrador adm;
     }
     //faz o login
      public Administrador getBibliotecario(Administrador bibliotecarios){         
-        String sql = "SELECT * FROM usuarios WHERE codusuario = ? AND senha = ?";
+        String sql = "SELECT * FROM usuarioa WHERE codusuario = ? AND senha = ?";
         try (PreparedStatement ps = cone.prepareStatement(sql)) {
             ps.setInt(1, bibliotecarios.getCodUsuario());
             ps.setString(2, bibliotecarios.getSenha());
@@ -58,7 +58,7 @@ private Administrador adm;
         return null;
     }
     public boolean cadastrarAdministrador(Administrador bibliotecario){
-        String bd = "INSERT INTO usuarios (nome, codUsuario, cpf, endereco, senha, ativo)"
+        String bd = "INSERT INTO usuario (nome, codUsuario, cpf, endereco, senha, ativo)"
                 + "VALUES(?,?,?,?,?,?)";
         try(PreparedStatement ps = cone.prepareStatement(bd)){
             ps.setString(1,bibliotecario.getNome());
@@ -87,7 +87,7 @@ private Administrador adm;
           
     
      public boolean ativar(Administrador bibliotecario){         
-         String sql = "UPDATE usuarios SET ativo = ? WHERE codusuario = ?";
+         String sql = "UPDATE usuario SET ativo = ? WHERE codusuario = ?";
          try(PreparedStatement ps = cone.prepareStatement(sql)){
             ps.setString(1, "sim");
             ps.setInt(2, bibliotecario.getCodUsuario());            
@@ -108,7 +108,7 @@ private Administrador adm;
     
     //seleciona um administrador ou bibliotecário 
     public Administrador selecionarUsuario(Administrador bibliotecario){
-        String sqls = "SELECT usuarios SET ativo = ? WHERE usuario = ?";         
+        String sqls = "SELECT usuario SET ativo = ? WHERE usuario = ?";         
         try (PreparedStatement pst = cone.prepareStatement(sqls)){             
             pst.setString(1,"nao" );
             pst.setInt(2, bibliotecario.getCodUsuario());

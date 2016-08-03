@@ -8,9 +8,7 @@
 package br.ifrn.tads.poo.biblioteca.ManagedBean;
 
 import br.ifrn.tads.poo.biblioteca.DAO.ItemAcervoDAO;
-import br.ifrn.tads.poo.biblioteca.acervo.Apostila;
 import br.ifrn.tads.poo.biblioteca.acervo.Livro;
-import br.ifrn.tads.poo.biblioteca.acervo.Texto;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,25 +22,7 @@ import javax.faces.context.FacesContext;
 
 public class BeanCadastrar{
    private Livro livro; 
-   private Apostila apostila; 
-   private Texto texto; 
    private ItemAcervoDAO itemacervoDao;   
-
-    public Apostila getApostila() {
-        return apostila;
-    }
-
-    public void setApostila(Apostila apostila) {
-        this.apostila = apostila;
-    }
-
-    public Texto getTexto() {
-        return texto;
-    }
-
-    public void setTexto(Texto texto) {
-        this.texto = texto;
-    }
 
     public Livro getLivro() {
         return livro;
@@ -61,15 +41,12 @@ public class BeanCadastrar{
     }
     public BeanCadastrar(){
         this.livro = new Livro();
-        this.apostila = new Apostila();
-        this.texto = new Texto();
     }
- 
-    //chama o método que cadastra um livro
-     public void CadastrarLivro(){         
+    //chama o método que cadastra um formulário
+     public void Cadastrar(){         
         try {            
             this.itemacervoDao = new ItemAcervoDAO();
-            boolean chamacadastro = this.itemacervoDao.cadastrarLivro(this.livro);                        
+            boolean chamacadas = this.itemacervoDao.cadastrarLivro(this.livro);                        
              try {
                  FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
              } catch (IOException ex) {
@@ -77,39 +54,6 @@ public class BeanCadastrar{
              }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BeanCadastrar.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            this.livro = new Livro();
-       }         
-     
-     //chama o método que cadastra uma apostila
-     public void CadastrarApostila(){         
-        try {            
-            this.itemacervoDao = new ItemAcervoDAO();
-            boolean chamacadastro = this.itemacervoDao.cadastrarApostila(this.apostila);                        
-             try {
-                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-             } catch (IOException ex) {
-                 Logger.getLogger(BeanCadastrar.class.getName()).log(Level.SEVERE, null, ex);
-             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BeanCadastrar.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            this.apostila = new Apostila();
-       }         
-     
-     //chama o método que cadastra um texto
-     public void CadastrarTexto(){         
-        try {            
-            this.itemacervoDao = new ItemAcervoDAO();
-            boolean chamacadastro = this.itemacervoDao.cadastrarTexto(this.texto);                        
-             try {
-                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-             } catch (IOException ex) {
-                 Logger.getLogger(BeanCadastrar.class.getName()).log(Level.SEVERE, null, ex);
-             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BeanCadastrar.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            this.texto = new Texto();
+        }this.livro = new Livro();
        }         
 }
