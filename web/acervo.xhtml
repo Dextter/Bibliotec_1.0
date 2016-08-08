@@ -50,20 +50,19 @@
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
                         </p:confirmDialog>   
+                        
                         <p:commandButton title="Reservar" value="Reservar"  type="button" onclick="PF('dlg3').show();"/>                                                         
                         <p:dialog header="Reserva" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
                             <f:facet name="header"><p:outputLabel value="Realizar reserva de Livro" /></f:facet>                                                        
                             <p:outputLabel value="Codigo do Usuário: "/>
                             <p:inputText value="codeReservar"/>  
-                                 <p:commandButton value="Reervar"   icon="ui-icon-check" 
-                                                  action="#{beanNegocios.alugarLivro(codeReservar)}" ajax="false" />
+                                 <p:commandButton value="Reservar"   icon="ui-icon-check" 
+                                                  action="#{beanNegocios.reservarLivro(codeReservar)}" ajax="false" />
                         </p:dialog>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
                         </p:confirmDialog>   
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
-                        </p:confirmDialog>  
+                        
                       </p:rowExpansion>
                  </p:dataTable>
              </h:form>                       
@@ -90,21 +89,32 @@
                             <p:outputLabel value="#{apostila.autor}"/>                                            
                             
                         </p:panelGrid>                    
-                        <p:commandButton title="Alugar" value="Alugar"  type="button" onclick="PF('dlg3').show();"/>                                                         
-                        <p:dialog header="Aluguel" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="300" width="300">                             
-                            <f:facet name="header"><p:outputLabel value="Preço" /></f:facet>
-                            <p:outputLabel value="R$: {apostila.custoApostila}"/>
-                                 <p:inputText value="#usuarioBean.usuario.valorPagar}"/>                            
-                                 <p:commandButton value="Enviar"   icon="ui-icon-check" 
-                                                  action="{beanNegocios.alugarApostila(livro.custoApostila, usuarioBean.usuario.valorPagar)}" ajax="false" />
+                         <p:commandButton title="Alugar" value="Alugar"  type="button" onclick="PF('dlg3').show();"/>                                                         
+                        <p:dialog header="Aluguel" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
+                            <f:facet name="header"><p:outputLabel value="Preço R$:#{apostila.custoApostila}" /></f:facet>                            
+                            <p:outputLabel value="Valor a pagar: "/>
+                            <p:inputText value="pagamentoAp"/>         
+                            <p:outputLabel value="Codigo do Usuário: "/>
+                            <p:inputText value="codeAlugarAp"/>  
+                                 <p:commandButton value="Alugar"   icon="ui-icon-check" 
+                                                  action="#{beanNegocios.alugarApostila(apostila.custoApostila, pagamentoAp, codeAlugarAp)}" ajax="false" />
                         </p:dialog>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
-                        </p:confirmDialog>                                            
-                            <p:commandButton value="Reservar" update=":message"  action="#{beanNegocios.reservarApostila()}"
-                                           style="margin-left: 3.0%">
-                            <p:confirm header="Reserva" message="Reservar?" />
-                        </p:commandButton>                                                                    
+                        </p:confirmDialog>   
+                        
+                         <p:commandButton title="Reservar" value="Reservar"  type="button" onclick="PF('dlg3').show();"/>                                                         
+                        <p:dialog header="Reserva" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
+                            <f:facet name="header"><p:outputLabel value="Realizar reserva de Apostila" /></f:facet>                                                        
+                            <p:outputLabel value="Codigo do Usuário: "/>
+                            <p:inputText value="codeReservarAp"/>  
+                                 <p:commandButton value="Reservar"   icon="ui-icon-check" 
+                                                  action="#{beanNegocios.reservarApostila(codeReservarAp)}" ajax="false" />
+                        </p:dialog>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
+                        </p:confirmDialog> 
+                         
                       </p:rowExpansion>
                  </p:dataTable>
              </h:form>
@@ -124,22 +134,36 @@
                             </f:facet>                            
                             <p:outputLabel value="Autor" />
                             <p:outputLabel value="#{texto.autor}"/>                                            
-                        </p:panelGrid>                    
+                        </p:panelGrid>     
+                            
                         <p:commandButton title="Alugar" value="Alugar"  type="button" onclick="PF('dlg3').show();"/>                                                         
-                        <p:dialog header="Aluguel" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="300" width="300">                             
-                            <f:facet name="header"><p:outputLabel value="Preço" /></f:facet>
-                            <p:outputLabel value="R$: {texto.custoTexto}"/>
-                                 <p:inputText value="{usuarioBean.usuario.valorPagar}"/>                            
-                                 <p:commandButton value="Enviar"   icon="ui-icon-check" 
-                                                  action="{beanNegocios.alugarTexto(livro.custoTexto, usuarioBean.usuario.valorPagar)}" ajax="false" />
+                        <p:dialog header="Aluguel" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
+                            <f:facet name="header"><p:outputLabel value="Preço R$:#{texto.custoTexto}" /></f:facet>                            
+                            <p:outputLabel value="Valor a pagar: "/>
+                            <p:inputText value="pagamentoTxt"/>         
+                            <p:outputLabel value="Codigo do Usuário: "/>
+                            <p:inputText value="codeAlugarTxt"/>  
+                                 <p:commandButton value="Alugar"   icon="ui-icon-check" 
+                                                  action="#{beanNegocios.alugarTexto(texto.custoTexto, pagamentoTxt, codeAlugarTxt)}" ajax="false" />
                         </p:dialog>
+                        
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
-                        </p:confirmDialog>                                                                                         
-                            <p:commandButton value="Reservar" update=":message"  action="#{beanNegocios.reservarTexto()}"
-                                            style="margin-left: 3.0%">
-                             <p:confirm header="Reserva" message="Reservar?" />
-                         </p:commandButton>                                 
+                        </p:confirmDialog>   
+                   
+                        <p:commandButton title="Reservar" value="Reservar"  type="button" onclick="PF('dlg3').show();"/>                                                         
+                        <p:dialog header="Reserva" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
+                            <f:facet name="header"><p:outputLabel value="Realizar reserva de Texto" /></f:facet>                                                        
+                            <p:outputLabel value="Codigo do Usuário: "/>
+                            <p:inputText value="codeReservarTxt"/>  
+                                 <p:commandButton value="Reservar"   icon="ui-icon-check" 
+                                                  action="#{beanNegocios.reservarTexto(codeReservarTxt)}" ajax="false" />
+                        </p:dialog>
+                        
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
+                        </p:confirmDialog>   
+                                              
                           <script type="text/javascript">
                               function start() {
                                   PF('statusDialog').show();

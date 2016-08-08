@@ -25,12 +25,15 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class BeanNegocios {
     private List<Livro> listaLivrosAlugados;
+    private List<Livro> listaLivrosReservados;
     private List<Livro> listaLivros;        
     private Livro livros;                
     private List<Apostila> listaApostilasAlugadas;
+    private List<Apostila> listaApostilasReservadas;
     private List<Apostila> listaApostilas;        
     private Apostila apostilas;                
     private List<Texto> listaTextosAlugados;
+    private List<Texto> listaTextosReservados;
     private List<Texto> listaTextos;        
     private Texto textos;                
     private ItemAcervoDAO acervodao;
@@ -131,6 +134,35 @@ public class BeanNegocios {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }        
+
+    public List<Livro> getListaLivrosReservados() {
+        listarLivrosReservados();
+        return listaLivrosReservados;
+    }
+
+    public void setListaLivrosReservados(List<Livro> listaLivrosReservados) {
+        this.listaLivrosReservados = listaLivrosReservados;
+    }
+
+    public List<Apostila> getListaApostilasReservadas() {
+        listarApostilasReservadas();
+        return listaApostilasReservadas;
+    }
+
+    public void setListaApostilasReservadas(List<Apostila> listaApostilasReservadas) {
+        this.listaApostilasReservadas = listaApostilasReservadas;
+    }
+
+    public List<Texto> getListaTextosReservados() {
+        listarTextosReservados();
+        return listaTextosReservados;
+    }
+
+    public void setListaTextosReservados(List<Texto> listaTextosReservados) {
+        this.listaTextosReservados = listaTextosReservados;
+    }
+    
+    
     
     public void alugarLivro(int preco, int valor, int codUsuario){
         boolean cobreOValor;
@@ -158,7 +190,7 @@ public class BeanNegocios {
     public void alugarLivroReservado(int preco, int valor, int codUsuario){
         boolean cobreOValor, reservaAprovada;         
         int codUsuarioReservante = acervodao.verificarReservanteDeLivro(codUsuario);
-        if (codUsuario == codUsuarioReservante){
+        if (codUsuarioReservante != 0){
             reservaAprovada = true;
         } else {
             reservaAprovada = false;
@@ -168,6 +200,46 @@ public class BeanNegocios {
             try {
                 this.acervodao = new ItemAcervoDAO();
                 boolean alugar = this.acervodao.alugarLivros(livros, cobreOValor, codUsuario);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
+            
+            }               
+         }
+    }
+    
+    public void alugarApostilaReservada(int preco, int valor, int codUsuario){
+        boolean cobreOValor, reservaAprovada;         
+        int codUsuarioReservante = acervodao.verificarReservanteDeApostila(codUsuario);
+        if (codUsuarioReservante != 0){
+            reservaAprovada = true;
+        } else {
+            reservaAprovada = false;
+        }
+        if ((valor >= preco) && reservaAprovada){
+            cobreOValor = true;
+            try {
+                this.acervodao = new ItemAcervoDAO();
+                boolean alugar = this.acervodao.alugarApostilas(apostilas, cobreOValor, codUsuario);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
+            
+            }               
+         }
+    }
+    
+    public void alugarTextoReservado(int preco, int valor, int codUsuario){
+        boolean cobreOValor, reservaAprovada;         
+        int codUsuarioReservante = acervodao.verificarReservanteDeTexto(codUsuario);
+        if (codUsuarioReservante != 0){
+            reservaAprovada = true;
+        } else {
+            reservaAprovada = false;
+        }
+        if ((valor >= preco) && reservaAprovada){
+            cobreOValor = true;
+            try {
+                this.acervodao = new ItemAcervoDAO();
+                boolean alugar = this.acervodao.alugarTextos(textos, cobreOValor, codUsuario);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
             
@@ -251,6 +323,36 @@ public class BeanNegocios {
         }
     }
     
+     
+    public final void listarLivrosReservados(){        
+        try {
+            this.acervodao = new ItemAcervoDAO();
+            this.listaLivrosReservados = this.acervodao.listarLivrosReservados();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public final void listarApostilasReservadas(){       
+        try {
+            this.acervodao = new ItemAcervoDAO();
+            this.listaApostilasReservadas = this.acervodao.listarApostilasReservadas();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public final void listarTextosReservados(){        
+        try {
+            this.acervodao = new ItemAcervoDAO();
+            this.listaTextosReservados = this.acervodao.listarTextosReservados();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void reservarLivro(int codUsuarioReservante){
         try {
                 this.acervodao = new ItemAcervoDAO();
@@ -291,13 +393,13 @@ public class BeanNegocios {
         }
         if (null != tipoDocumento)switch (tipoDocumento) {
             case "Livro":
-                devolverLivro(pago);
+                devolverLivro(codeUser, pago);
                 break;
             case "Apostila":
-                devolverApostila(pago);
+                devolverApostila(codeUser, pago);
                 break;
             case "Texto":
-                devolverTexto(pago);
+                devolverTexto(codeUser, pago);
                 break;
             default:
                 break;
@@ -305,28 +407,28 @@ public class BeanNegocios {
         return pago;        
     }
     
-    public void devolverLivro(boolean pago){        
+    public void devolverLivro(int code, boolean pago){        
         try {
                 this.acervodao = new ItemAcervoDAO();
-                boolean alugar = this.acervodao.devolverLivros(livros, pago);
+                boolean alugar = this.acervodao.devolverLivros(livros, code, pago);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
             
             } 
     }
-    public void devolverApostila(boolean pago){        
+    public void devolverApostila(int code, boolean pago){        
         try {
                 this.acervodao = new ItemAcervoDAO();
-                boolean alugar = this.acervodao.devolverApostilas(apostilas, pago);
+                boolean alugar = this.acervodao.devolverApostilas(apostilas, code, pago);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
             
             } 
     }
-    public void devolverTexto(boolean pago){        
+    public void devolverTexto(int code, boolean pago){        
         try {
                 this.acervodao = new ItemAcervoDAO();
-                boolean alugar = this.acervodao.devolverTextos(textos, pago);
+                boolean alugar = this.acervodao.devolverTextos(textos, code, pago);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(AcervoBean.class.getName()).log(Level.SEVERE, null, ex);
             

@@ -196,6 +196,43 @@ public class ItemAcervoDAO {
         return null;
     }    
     
+     public List<Livro> listarLivrosReservados(){
+        String sqls = "SELECT * FROM livro WHERE reservado = ? ";
+         
+        List<Livro> lista = new ArrayList<>();
+        try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
+            pst.setString(1, "sim");
+            ResultSet result = pst.executeQuery();
+                while(result.next()){
+                    Livro livros = new Livro();
+                        livros.setIsbn(result.getString("isbn_livro"));
+                        livros.setAutor(result.getString("autor_livro"));                        
+                        livros.setTitulo(result.getString("titulo_livro"));                        
+                        livros.setEdicao(result.getInt("edicao_livro"));  
+                        livros.setAlugado(result.getBoolean("alugado"));
+                        livros.setData(result.getString("data_livro"));
+                        livros.setLivroPago(result.getBoolean("pago"));
+                        livros.setReservado(result.getBoolean("reservado"));
+                        livros.setCustoLivro(result.getDouble("preco_livro"));
+                        livros.setCodeReservante(result.getInt("codUsuarioReservante"));
+                    lista.add(livros);                    
+                }
+                return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(conexaobd != null){
+                try {
+                    conexaobd.close();                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+       
+        return null;
+    }    
+    
     //lista todas as apostilas não alugadas em ordem decrescente
     public List<Apostila> listarApostilas(){
         String sqls = "SELECT * FROM apostila WHERE alugado = ?  ORDER BY titulo_apostila DESC ";
@@ -254,6 +291,39 @@ public class ItemAcervoDAO {
         return null;
     }    
     
+      public List<Apostila> listarApostilasReservadas(){
+        String sqls = "SELECT * FROM apostila WHERE reservado = ? ";
+         
+        List<Apostila> lista = new ArrayList<>();
+        try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
+            pst.setString(1, "sim");
+            ResultSet result = pst.executeQuery();
+                while(result.next()){
+                    Apostila apostilas = new Apostila();
+                        apostilas.setAutor(result.getString("autor_apostila"));                                             
+                        apostilas.setTitulo(result.getString("titulo_apostila"));  
+                        apostilas.setAlugado(result.getBoolean("alugado"));
+                        apostilas.setApostilaPago(result.getBoolean("pago"));
+                        apostilas.setReservado(result.getBoolean("reservado"));
+                        apostilas.setCustoApostila(result.getDouble("preco_livro"));
+                        apostilas.setCodeReservante(result.getInt("codUsuarioReservante"));
+                    lista.add(apostilas);                    
+                }
+                return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(conexaobd != null){
+                try {
+                    conexaobd.close();                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }       
+        return null;
+    }  
+    
     //lista todos textos não alugados em ordem decrescente
     public List<Texto> listarTextos(){
         String sqls = "SELECT * FROM texto WHERE alugado = ?  ORDER BY autor DESC ";
@@ -311,6 +381,39 @@ public class ItemAcervoDAO {
         return null;
     }    
 
+    public List<Texto> listarTextosReservados(){
+        String sqls = "SELECT * FROM texto WHERE reservado = ? ";
+         
+        List<Texto> lista = new ArrayList<>();
+        try (PreparedStatement pst = conexaobd.prepareStatement(sqls)){
+            pst.setString(1, "sim");
+            ResultSet result = pst.executeQuery();
+                while(result.next()){
+                    Texto textos = new Texto();
+                        textos.setAutor(result.getString("autor"));  
+                        textos.setAlugado(result.getBoolean("alugado"));
+                        textos.setTextoPago(result.getBoolean("pago"));
+                        textos.setReservado(result.getBoolean("reservado"));
+                        textos.setCustoTexto(result.getDouble("preco_livro"));
+                        textos.setCodeReservante(result.getInt("codUsuarioReservante"));
+                    lista.add(textos);                    
+                }
+                return lista;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(conexaobd != null){
+                try {
+                    conexaobd.close();                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(ItemAcervoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+       
+        return null;
+    }      
+    
     public int verificarReservanteDeLivro(int codUsuarioRequisitante){
         String sqls = "SELECT * FROM livro WHERE codUsuarioReservante = ? ";        
         
@@ -362,7 +465,7 @@ public class ItemAcervoDAO {
     }
     
     public boolean alugarLivros(Livro livro, boolean pago, int codUsuario) {
-        String pagamento; //TESTAR SE O METODO TA ALTERANDO TODOS OS ATRIBUTOS DA TABELA
+        String pagamento;
         if (pago == true){
             pagamento = "sim";
         } else {
@@ -371,7 +474,7 @@ public class ItemAcervoDAO {
         String sql = "UPDATE livro SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataAluguel = ?";
          try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
             ps.setString(1, "sim");        
-            ps.setString(2,"sim");   //AQUI VAI VIM A VAARIAVEL PAGAMENTO   
+            ps.setString(2,pagamento);   
             ps.setInt(3, codUsuario);
             ps.setDate(4, livro.getDataA());
              int retorno = ps.executeUpdate();                    
@@ -392,19 +495,20 @@ public class ItemAcervoDAO {
         return  false;
     }
 
-    public boolean devolverLivros(Livro livro, boolean pago){
+    public boolean devolverLivros(Livro livro, int code,boolean pago){
          String pagamento;
         if (pago == true){
             pagamento = "sim";
         } else {
             pagamento = "nao";
         }
-        String sql = "UPDATE livro SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataDevolucao = ?";
+        String sql = "UPDATE livro SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataDevolucao = ?  WHERE codUsuarioAlugante =?";
          try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
             ps.setString(1, "nao");        
-            ps.setString(2,"nao");        
+            ps.setString(2,pagamento);        
             ps.setInt(3, 0);
             ps.setDate(4, livro.getDataD());
+            ps.setInt(5, code);
              int retorno = ps.executeUpdate();                    
                         if(retorno == 1){                            
                             return true;
@@ -475,7 +579,7 @@ public class ItemAcervoDAO {
     
     
      public boolean alugarApostilas(Apostila apostila, boolean pago, int codUsuario) {
-        String pagamento; //TESTAR SE O METODO TA ALTERANDO TODOS OS ATRIBUTOS DA TABELA
+        String pagamento;
         if (pago == true){
             pagamento = "sim";
         } else {
@@ -484,7 +588,7 @@ public class ItemAcervoDAO {
         String sql = "UPDATE apostila SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataAluguel = ?";
          try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
             ps.setString(1, "sim");        
-            ps.setString(2,"sim");  //AQUI VAI VIM A VARIAVEL PAGAMENTO     
+            ps.setString(2,pagamento);  
             ps.setInt(3, codUsuario);
             ps.setDate(4, apostila.getDataA());
              int retorno = ps.executeUpdate();                    
@@ -505,19 +609,20 @@ public class ItemAcervoDAO {
         return  false;
     }
 
-     public boolean devolverApostilas(Apostila apostila, boolean pago){
+     public boolean devolverApostilas(Apostila apostila, int code, boolean pago){
          String pagamento;
         if (pago == true){
             pagamento = "sim";
         } else {
             pagamento = "nao";
         }
-        String sql = "UPDATE apostila SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataDevolucao = ?";
+        String sql = "UPDATE apostila SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataDevolucao = ?  WHERE codUsuarioAlugante =?";
          try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
             ps.setString(1, "nao");        
-            ps.setString(2,"nao");        
+            ps.setString(2,pagamento);        
             ps.setInt(3, 0);
             ps.setDate(4, apostila.getDataD());
+            ps.setInt(5, code);
              int retorno = ps.executeUpdate();                    
                         if(retorno == 1){                            
                             return true;
@@ -587,7 +692,7 @@ public class ItemAcervoDAO {
     }
     
      public boolean alugarTextos(Texto texto, boolean pago, int codUsuario) {
-        String pagamento; //TESTAR SE O METODO TA ALTERANDO TODOS OS ATRIBUTOS DA TABELA
+        String pagamento; 
         if (pago == true){
             pagamento = "sim";
         } else {
@@ -596,7 +701,7 @@ public class ItemAcervoDAO {
         String sql = "UPDATE texto SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataAluguel = ?";
          try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
             ps.setString(1, "sim");        
-            ps.setString(2,"sim");    //AQUI VAI VIM A VARIAVEL PAGAMENTO        
+            ps.setString(2,pagamento);
             ps.setInt(3, codUsuario);
             ps.setDate(4, texto.getDataA());
              int retorno = ps.executeUpdate();                    
@@ -617,19 +722,20 @@ public class ItemAcervoDAO {
         return  false;
     }
     
-     public boolean devolverTextos(Texto texto, boolean pago){
+     public boolean devolverTextos(Texto texto, int code,boolean pago){
          String pagamento;
         if (pago == true){
             pagamento = "sim";
         } else {
             pagamento = "nao";
         }
-        String sql = "UPDATE texto SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataDevolucao = ?";
+        String sql = "UPDATE texto SET alugado = ?,  pago = ?, usuarioAlugante = ?, dataDevolucao = ? WHERE codUsuarioAlugante =?";
          try(PreparedStatement ps = conexaobd.prepareStatement(sql)){
             ps.setString(1, "nao");        
-            ps.setString(2,"nao");        
+            ps.setString(2,pagamento);        
             ps.setInt(3, 0);
             ps.setDate(4, texto.getDataD());
+            ps.setInt(5, code);
              int retorno = ps.executeUpdate();                    
                         if(retorno == 1){                            
                             return true;

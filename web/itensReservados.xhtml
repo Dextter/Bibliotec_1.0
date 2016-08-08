@@ -1,14 +1,14 @@
-   <ui:composition template="/WEB-INF/templates/templateBasico.xhtml"
+<ui:composition template="/WEB-INF/templates/templateBasico.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-       <ui:define name="title">Biliotec</ui:define>
-       <ui:define name="center"> 
-           <h:form  id="message">
-                 <p:dataTable var="livro" value="#{beanNegocios.listaLivrosAlugados}">
-                    <f:facet name="header" ><p:outputLabel value="Aluguéis" /></f:facet>
+       <ui:define name="title">Bibliotec</ui:define>
+       <ui:define name="center">    
+            <h:form  id="message">
+                 <p:dataTable var="livro" value="#{beanNegocios.listaLivrosReservados}">
+                    <f:facet name="header" ><p:outputLabel value="Acervo" /></f:facet>
                     <p:column style="width:16px">
                         <p:rowToggler />
                     </p:column>                    
@@ -36,41 +36,26 @@
                             <p:outputLabel value="#{livro.data}"/>                                                
 
                         </p:panelGrid>                    
+
                         <p:commandButton title="Alugar" value="Alugar"  type="button" onclick="PF('dlg3').show();"/>                                                         
                         <p:dialog header="Aluguel" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
                             <f:facet name="header"><p:outputLabel value="Preço R$:#{livro.custoLivro}" /></f:facet>                            
-                            <p:outputLabel value="Valor a pagar: "/>                            
-                            <p:inputText value="pagamento"/>           
+                            <p:outputLabel value="Valor a pagar: "/>
+                            <p:inputText value="pagamento"/>         
                             <p:outputLabel value="Codigo do Usuário: "/>
-                            <p:inputText value="code"/>  
+                            <p:inputText value="codeAlugar"/>  
                                  <p:commandButton value="Alugar"   icon="ui-icon-check" 
-                                                  action="#{beanNegocios.alugarLivroReservado(livro.custoLivro, pagamento, code)}" ajax="false" />
+                                                  action="#{beanNegocios.alugarLivroReservado(livro.custoLivro, pagamento, codeAlugar)}" ajax="false" />
                         </p:dialog>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
-                        </p:confirmDialog> 
-                        <p:commandButton value="Reservar" update=":message"  action="#{beanNegocios.reservarLivro}"
-                                           style="margin-left: 16.7%">
-                            <p:confirm header="Reservar?" message="Reservar" />
-                        </p:commandButton>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                        
-                        </p:confirmDialog>                                           
-                          <script type="text/javascript">
-                              function start() {
-                                  PF('statusDialog').show();
-                              }
-
-                              function stop() {
-                                  PF('statusDialog').hide();
-                              }
-                          </script>                                                                  
+                        </p:confirmDialog>                                                  
+                        
                       </p:rowExpansion>
                  </p:dataTable>
              </h:form>                       
              <h:form  id="messageA">
-                 <p:dataTable var="apostila" value="#{beanNegocios.listaApostilasAlugadas}">                    
+                 <p:dataTable var="apostila" value="#{beanNegocios.listaApostilasReservadas}">                    
                     <p:column style="width:16px">
                         <p:rowToggler />
                     </p:column>                    
@@ -79,7 +64,7 @@
                             <p:outputLabel value="#{apostila.titulo}"/>
                         </p:column>                    
                         <p:rowExpansion>
-                        <p:panelGrid columns="5" columnClasses="label,value" style="width: 1000px">
+                        <p:panelGrid columns="2" columnClasses="label,value" style="width: 1000px">
 
                             <f:facet name="header">
                                 <p:outputLabel value="Informações Adicionais"/> 
@@ -91,30 +76,27 @@
                             <p:outputLabel value="#{apostila.titulo}"/>                                            
                             <p:outputLabel value="#{apostila.autor}"/>                                            
                             
-                        </p:panelGrid>                    
-
-                            <p:commandButton value="Reservar" update=":messageA"  action="#{beanNegocios.reservarApostila}"
-                                           style="margin-left: 16.7%">
-                            <p:confirm header="Reservar?" message="Reservar" />
-                        </p:commandButton>
+                        </p:panelGrid>   
+                            
+                         <p:commandButton title="Alugar" value="Alugar"  type="button" onclick="PF('dlg3').show();"/>                                                         
+                        <p:dialog header="Aluguel" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
+                            <f:facet name="header"><p:outputLabel value="Preço R$:#{apostila.custoApostila}" /></f:facet>                            
+                            <p:outputLabel value="Valor a pagar: "/>
+                            <p:inputText value="pagamentoAp"/>         
+                            <p:outputLabel value="Codigo do Usuário: "/>
+                            <p:inputText value="codeAlugarAp"/>  
+                                 <p:commandButton value="Alugar"   icon="ui-icon-check" 
+                                                  action="#{beanNegocios.alugarApostilaReservada(apostila.custoApostila, pagamentoAp, codeAlugarAp)}" ajax="false" />
+                        </p:dialog>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                        
-                        </p:confirmDialog>                                           
-                          <script type="text/javascript">
-                              function start() {
-                                  PF('statusDialog').show();
-                              }
-
-                              function stop() {
-                                  PF('statusDialog').hide();
-                              }
-                          </script>                                                                  
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
+                        </p:confirmDialog>                                                   
+                         
                       </p:rowExpansion>
                  </p:dataTable>
              </h:form>
              <h:form  id="messageT">
-                 <p:dataTable var="texto" value="#{beanNegocios.listaTextosAlugados}">                    
+                 <p:dataTable var="texto" value="#{beanNegocios.listaTextosReservados}">                    
                     <p:column style="width:16px">
                         <p:rowToggler />
                     </p:column>                    
@@ -123,21 +105,28 @@
                             <p:outputLabel value="#{texto.autor}"/>
                         </p:column>                    
                         <p:rowExpansion>
-                        <p:panelGrid columns="5" columnClasses="label,value" style="width: 1000px">
+                        <p:panelGrid columns="1" columnClasses="label,value" style="width: 1000px">
                             <f:facet name="header">
                                 <p:outputLabel value="Informações Adicionais"/> 
                             </f:facet>                            
                             <p:outputLabel value="Autor" />
-                            <p:outputLabel value="#{livro.autor}"/>                                            
-                        </p:panelGrid>                    
-                        <p:commandButton value="Reservar" update=":messageT"  action="#{beanNegocios.reservarTexto}"
-                                           style="margin-left: 16.7%">
-                            <p:confirm header="Reservar?" message="Reservar" />
-                        </p:commandButton>
+                            <p:outputLabel value="#{texto.autor}"/>                                            
+                        </p:panelGrid>   
+                            
+                        <p:commandButton title="Alugar" value="Alugar"  type="button" onclick="PF('dlg3').show();"/>                                                         
+                        <p:dialog header="Aluguel" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
+                            <f:facet name="header"><p:outputLabel value="Preço R$:#{texto.custoTexto}" /></f:facet>                            
+                            <p:outputLabel value="Valor a pagar: "/>
+                            <p:inputText value="pagamentoTxt"/>         
+                            <p:outputLabel value="Codigo do Usuário: "/>
+                            <p:inputText value="codeAlugarTxt"/>  
+                                 <p:commandButton value="Alugar"   icon="ui-icon-check" 
+                                                  action="#{beanNegocios.alugarTextoReservado(texto.custoTexto, pagamentoTxt, codeAlugarTxt)}" ajax="false" />
+                        </p:dialog>
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />                        
-                        </p:confirmDialog>                                           
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
+                        </p:confirmDialog>                                             
+                                              
                           <script type="text/javascript">
                               function start() {
                                   PF('statusDialog').show();
@@ -150,5 +139,5 @@
                       </p:rowExpansion>
                  </p:dataTable>
              </h:form>
-       </ui:define>
+         </ui:define>
 </ui:composition>
