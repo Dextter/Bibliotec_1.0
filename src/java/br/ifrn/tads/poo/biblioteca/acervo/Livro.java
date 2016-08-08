@@ -6,7 +6,7 @@
 
 package br.ifrn.tads.poo.biblioteca.acervo;
 
-import java.util.Date;
+import java.sql.Date;
 
 
 /**
@@ -14,12 +14,32 @@ import java.util.Date;
  * @author pablopc
  */
 public class Livro extends ItemAcervo{
-    private Date data = new Date();
+    private String data;
     private String autor;
     private String isbn;    
     private String titulo;    
-    private Integer edicao;    
-   
+    private Integer edicao;  
+    private double custoLivro;
+    private int code, codeReservante;
+    private Date dataA;
+    private Date dataD;
+    private boolean livroPago;
+    private Boolean alugado;
+    private Boolean reservado;
+    
+
+    public Livro(double custo, int codigoItem, boolean pago, Date dataAluguel, Date dataDevolucao) {
+        super(custo, codigoItem, pago, dataAluguel, dataDevolucao);
+    }
+
+    public Livro() {
+        this.custo = custoLivro;
+        this.codigoItem = code;
+        this.dataAluguel = dataA;
+        this.dataDevolucao = dataD;
+        this.pago = livroPago;
+    }
+    
     public Integer getEdicao() {
         return edicao;
     }
@@ -28,11 +48,11 @@ public class Livro extends ItemAcervo{
         this.edicao = edicao;
     }        
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
     
@@ -60,6 +80,70 @@ public class Livro extends ItemAcervo{
         this.titulo = titulo;
     }
 
+    public double getCustoLivro() {
+        return custoLivro;
+    }
+
+    public void setCustoLivro(double custoLivro) {
+        this.custoLivro = custoLivro;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public Date getDataA() {
+        return dataA;
+    }
+
+    public void setDataA(Date dataA) {
+        this.dataA = dataA;
+    }
+
+    public Date getDataD() {
+        return dataD;
+    }
+
+    public void setDataD(Date dataD) {
+        this.dataD = dataD;
+    }
+
+    public boolean isLivroPago() {
+        return livroPago;
+    }
+
+    public void setLivroPago(boolean livroPago) {
+        this.livroPago = livroPago;
+    }     
+
+    public int getCodeReservante() {
+        return codeReservante;
+    }
+
+    public void setCodeReservante(int codeReservante) {
+        this.codeReservante = codeReservante;
+    }
+
+    public Boolean getAlugado() {
+        return alugado;
+    }
+
+    public void setAlugado(Boolean alugado) {
+        this.alugado = alugado;
+    }
+
+    public Boolean getReservado() {
+        return reservado;
+    }
+
+    public void setReservado(Boolean reservado) {
+        this.reservado = reservado;
+    }    
+   
     @Override
     public void alugar() {
         
@@ -79,5 +163,7 @@ public class Livro extends ItemAcervo{
     public void reservar() {
         
     }
+
+    
 
 }

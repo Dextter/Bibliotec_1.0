@@ -8,7 +8,7 @@
        <ui:define name="center"> 
            <h:form  id="message">
                  <p:dataTable var="livro" value="#{beanNegocios.listaLivrosAlugados}">
-                    <f:facet name="header" ><p:outputLabel value="Acervo" /></f:facet>
+                    <f:facet name="header" ><p:outputLabel value="Aluguéis" /></f:facet>
                     <p:column style="width:16px">
                         <p:rowToggler />
                     </p:column>                    
@@ -36,7 +36,17 @@
                             <p:outputLabel value="#{livro.data}"/>                                                
 
                         </p:panelGrid>                    
-
+                        <p:commandButton title="Alugar" value="Alugar"  type="button" onclick="PF('dlg3').show();"/>                                                         
+                        <p:dialog header="Aluguel" widgetVar="dlg3" showEffect="explode" hideEffect="bouce" height="100" width="300">                             
+                            <f:facet name="header"><p:outputLabel value="Preço R$:#{livro.custoLivro}" /></f:facet>                            
+                            <p:outputLabel value="Valor a pagar: "/>
+                            <p:inputText value="pagamento"/>                            
+                                 <p:commandButton value="Alugar"   icon="ui-icon-check" 
+                                                  action="{beanNegocios.devolverLivro}" ajax="false" />
+                        </p:dialog>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />                           
+                        </p:confirmDialog> 
                         <p:commandButton value="Reservar" update=":message"  action="#{beanNegocios.reservarLivro}"
                                            style="margin-left: 16.7%">
                             <p:confirm header="Reservar?" message="Reservar" />

@@ -30,7 +30,7 @@ public class AcervoBean {
     private ItemAcervoDAO acervodao;
     private Livro livros;                   
     private Texto textos;   
-    private Apostila Apostilas;   
+    private Apostila apostilas;   
 
     public List<Apostila> getListaApostilas() {
         listarApostilas();
@@ -59,11 +59,11 @@ public class AcervoBean {
     }
 
     public Apostila getApostilas() {
-        return Apostilas;
+        return apostilas;
     }
 
-    public void setApostilas(Apostila Apostilas) {
-        this.Apostilas = Apostilas;
+    public void setApostilas(Apostila apostilas) {
+        this.apostilas = apostilas;
     }
         
     public ItemAcervoDAO getAcervodao() {
@@ -82,7 +82,9 @@ public class AcervoBean {
         this.livros = livros;
     }
     public AcervoBean() {
-        this.livros = new Livro();                
+        this.livros = new Livro();  
+        this.apostilas = new Apostila();
+        this.textos = new Texto();
     }
     
 

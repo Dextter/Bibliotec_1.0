@@ -25,16 +25,7 @@ import java.util.List;
 public class AdministradorBean {
 
     private Administrador bibliotecario;
-    private AdministradorDAO bibliotecariodao;
-    private List<Administrador> listaSolicitacoes;
-
-    public List<Administrador> getListaSolicitacoes() {
-        return listaSolicitacoes;
-    }
-
-    public void setListaSolicitacoes(List<Administrador> listaSolicitacoes) {
-        this.listaSolicitacoes = listaSolicitacoes;
-    }
+    private AdministradorDAO bibliotecariodao;    
      
     public AdministradorBean() {
         this.bibliotecario = new Administrador();        
@@ -63,7 +54,7 @@ public class AdministradorBean {
             this.bibliotecariodao = new AdministradorDAO();
             this.bibliotecario = this.bibliotecariodao.getBibliotecario(this.bibliotecario);
             try {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("faces/acervo.xhtml");
                 } catch (IOException ex) {
                     Logger.getLogger(AdministradorBean.class.getName()).log(Level.SEVERE, null, ex);
                 }                      
@@ -87,7 +78,7 @@ public class AdministradorBean {
     }
     public void redirecionar(){        
         try {            
-            FacesContext.getCurrentInstance().getExternalContext().redirect("cadastro.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("faces/cadastro.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(AdministradorBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -168,7 +159,7 @@ public class AdministradorBean {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         session.invalidate();
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("faces/index.xhtml");
         } catch (IOException ex) {
             Logger.getLogger(AdministradorBean.class.getName()).log(Level.SEVERE, null, ex);
         }

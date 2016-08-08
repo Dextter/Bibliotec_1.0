@@ -13,6 +13,7 @@ import br.ifrn.tads.poo.biblioteca.acervo.ItemAcervo;
  */
 public class Usuario {
     private int codUsuario;
+    private double valorPagar;
     private String nome, endereco, cpf, senha, ativo;
     private ItemAcervo item;
 
@@ -40,6 +41,15 @@ public class Usuario {
         this.codUsuario = codUsuario;
     }
 
+    public double getValorPagar() {
+        return valorPagar;
+    }
+
+    public void setValorPagar(double valorPagar) {
+        this.valorPagar = valorPagar;
+    }
+
+    
     public String getNome() {
         return nome;
     }
